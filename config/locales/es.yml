@@ -1,0 +1,21 @@
+es:
+  hello: "Hello world"
+  solicite: Solicitar
+  back: Volver
+  add_products: Agregar productos
+  activemodel:
+    models:
+      cart: Carro
+    attributes:
+      cart:
+        quantity_product: Cantidad
+        product: Producto
+  carts:
+    index:
+      title: Ingrese su nombre
+    new_cart_user:
+      title: Nuevo carro para %{name_user}
+  errors:
+    send_cart: evitó que se enviara el carro
+    send_name: Ingrese el nombre
+    send_field: complete el campo

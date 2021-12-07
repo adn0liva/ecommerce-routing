@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :carts, only: [:index, :create] do
+    collection do
+      post 'new_cart_user' 
+    end
+  end
 end

@@ -1,0 +1,32 @@
+<%
+=begin%>
+  ToDo: add map to get position
+<%
+=end%>
+<%= form_for(@cart, class: 'center') do |f| %>
+  <% if @cart.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= "#{pluralize(@cart.errors.count, "error")} #{t('errors.send_cart')}" %> </h2>
+
+      <ul>
+        <% @cart.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="name_user mt-1">
+    <%= f.hidden_field :name_user %>
+  </div>
+  <div class="product mt-1">
+    <%= f.label :product %>
+    <%= f.select :product, options_for_select(@articles.map{|e| [e[:name],e[:id]]}) %>
+  </div>
+  <div class="quantity_product mt-1">
+    <%= f.label :quantity_product %>
+    <%= f.number_field :quantity_product, mix: 1, max: 10 %>
+  </div>
+  <div class="actions mt-15">
+    <%= f.submit t(:solicite) %>
+  </div>
+<% end %>

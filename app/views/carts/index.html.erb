@@ -1,0 +1,15 @@
+<% if notice %>
+  <p id="notice"><%= notice %></p>
+<% end %>
+
+<h1><%=t('.title')%></h1>
+
+<%= form_for(@cart, url: new_cart_user_carts_url) do |f| %>
+  <div class="name_user">
+    <%= f.text_field :name_user %>
+  </div>
+
+  <div class="actions mt-15">
+    <%= f.submit t(:add_products) %>
+  </div>
+<% end %>
