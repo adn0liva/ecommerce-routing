@@ -30,11 +30,15 @@ class Cart
   end
 
   def get_data_as_json
+    product_json = Article.get_product(self.product)
+    loads = product_json[:loads]
+    # loads = { load0: self.quantity_product,load1: self.quantity_product*2, load2: self.quantity_product*3 }
     {
       origin: 'e-commerce',
       user: self.name_user,
       product: self.product,
-      loads: { load0: self.quantity_product,load1: self.quantity_product*2, load2: self.quantity_product*3 },
+      quantity: self.quantity_product,
+      loads: loads,
       latitude: self.latitude,
       longitude: self.longitude
     }
