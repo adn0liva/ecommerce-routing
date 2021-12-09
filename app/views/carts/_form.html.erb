@@ -41,22 +41,20 @@
 
 <script type="text/javascript">
 
-  // ToDo: load lat lng from fields on reload when failed
   const HereMap = (params) => {
     const {
       apikey = null,
       useDraggable = false,
       idContainer = 'mapContainer',
-      callbackOnDrag
+      callbackOnDrag,
+      lat = -33.437709585031634,
+      lng = -70.65045814429156
     } = params;
 
     let map, behavior, marker;
 
     const initialize = () => {
       var platform = new H.service.Platform({ apikey });
-      // default lat lng
-      const lat = -33.437709585031634;
-      const lng = -70.65045814429156;
       // Obtain the default map types from the platform object:
       var defaultLayers = platform.createDefaultLayers({lg: 'es'});
       // Instantiate (and display) a map object:
@@ -127,15 +125,27 @@
     }
   }
 
+  const elemLatitude = document.getElementById('cart_latitude');
+  const elemLongitude = document.getElementById('cart_longitude');
+
   // init map and send function
   const replaceCoords = (coords) => {
     const { lat, lng } = coords;
-    document.getElementById('cart_latitude').value = lat;
-    document.getElementById('cart_longitude').value = lng;
+    elemLatitude.value = lat;
+    elemLongitude.value = lng;
   }
+  var lat = elemLatitude.value;
+  var lng = elemLongitude.value;
+
+  // assign default coords
+  lat = lat == '' ? -33.437709585031634 : lat;
+  lng = lng == '' ? -70.65045814429156 : lng;
+
   const aHereMap = HereMap({
     apikey: '<%= here_api_key%>',
     useDraggable: true,
-    callbackOnDrag: replaceCoords
+    callbackOnDrag: replaceCoords,
+    lat,
+    lng
   })
 </script>

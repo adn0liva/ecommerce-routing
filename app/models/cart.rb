@@ -34,7 +34,7 @@ class Cart
       origin: 'e-commerce',
       user: self.name_user,
       product: self.product,
-      quantity: self.quantity_product,
+      loads: { load0: self.quantity_product,load1: self.quantity_product*2, load2: self.quantity_product*3 },
       latitude: self.latitude,
       longitude: self.longitude
     }
