@@ -3,6 +3,7 @@ es:
   solicite: Solicitar
   back: Volver
   add_products: Agregar productos
+  notice_cart_created: Su carro fue enviado a crearse
   activemodel:
     models:
       cart: Carro
@@ -10,6 +11,9 @@ es:
       cart:
         quantity_product: Cantidad
         product: Producto
+        coords: Coordenadas
+        latitude: Latitud
+        longitude: Longitud
   carts:
     index:
       title: Ingrese su nombre

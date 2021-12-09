@@ -1,13 +1,8 @@
-<%
-=begin%>
-  ToDo: add map to get position
-<%
-=end%>
+<% here_api_key = Rails.application.credentials.here_api_key %>
 <%= form_for(@cart, class: 'center') do |f| %>
   <% if @cart.errors.any? %>
     <div id="error_explanation">
       <h2><%= "#{pluralize(@cart.errors.count, "error")} #{t('errors.send_cart')}" %> </h2>
-
       <ul>
         <% @cart.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -26,7 +21,131 @@
     <%= f.label :quantity_product %>
     <%= f.number_field :quantity_product, mix: 1, max: 10 %>
   </div>
+  <div class="coords mt-1">
+    <%= f.label :coords %>
+    <div class="latitude">
+      <%= f.label :latitude %>
+      <%= f.number_field :latitude, readonly: true %>
+    </div>
+    <div class="longitude">
+      <%= f.label :longitude %>
+      <%= f.number_field :longitude, readonly: true %>
+    </div>
+  </div>
+  <div class="map-container mt-1" id="mapContainer">
+  </div>
   <div class="actions mt-15">
     <%= f.submit t(:solicite) %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+
+  const HereMap = (params) => {
+    const {
+      apikey = null,
+      useDraggable = false,
+      idContainer = 'mapContainer',
+      callbackOnDrag,
+      lat = -33.437709585031634,
+      lng = -70.65045814429156
+    } = params;
+
+    let map, behavior, marker;
+
+    const initialize = () => {
+      var platform = new H.service.Platform({ apikey });
+      // Obtain the default map types from the platform object:
+      var defaultLayers = platform.createDefaultLayers({lg: 'es'});
+      // Instantiate (and display) a map object:
+      map = new H.Map(
+        document.getElementById(idContainer),
+        defaultLayers.vector.normal.map,
+        {
+          zoom: 15,
+          center: {lat, lng}
+        }
+      );
+      var ui = H.ui.UI.createDefault(map, defaultLayers, 'es-ES');
+      var mapEvents = new H.mapevents.MapEvents(map);
+      behavior = new H.mapevents.Behavior(mapEvents);
+      // add default marker
+      marker = new H.map.Marker({lat, lng}, {volatility: true});
+      marker.draggable = true;
+      map.addObject(marker);
+    }
+
+    const drawDraggable = () => {
+      // disable the default draggability of the underlying map
+      // and calculate the offset between mouse and target's position
+      // when starting to drag a marker object:
+      map.addEventListener('dragstart', function(ev) {
+        var target = ev.target,
+          pointer = ev.currentPointer;
+        if (target instanceof H.map.Marker) {
+          var targetPosition = map.geoToScreen(target.getGeometry());
+          target['offset'] = new H.math.Point(pointer.viewportX - targetPosition.x, pointer.viewportY - targetPosition.y);
+          behavior.disable();
+        }
+      }, false);
+      // re-enable the default draggability of the underlying map
+      // when dragging has completed
+      marker.addEventListener('dragend', function(ev) {
+        var target = ev.target;
+        if (target instanceof H.map.Marker) {
+          behavior.enable();
+          // use callback if defined
+          const { lat, lng } = target.getGeometry();
+          if (callbackOnDrag) {
+            callbackOnDrag(target.getGeometry())
+          }
+        }
+      }, false);
+      // Listen to the drag event and move the position of the marker
+      // as necessary
+      map.addEventListener('drag', function(ev) {
+        var target = ev.target,
+          pointer = ev.currentPointer;
+        if (target instanceof H.map.Marker) {
+          target.setGeometry(map.screenToGeo(pointer.viewportX - target['offset'].x, pointer.viewportY - target['offset'].y));
+        }
+      }, false);
+    }
+    // use defined methods
+    if (apikey == undefined || apikey == "" || apikey == null || apikey == "null"){
+      console.error('Cannot load map. Must send apikey to fix');
+      document.getElementById(idContainer).style.display = 'none';
+    } else{
+      // initialize map
+      initialize()
+      // add events to marker
+      if (useDraggable) {
+        drawDraggable();
+      }
+    }
+  }
+
+  const elemLatitude = document.getElementById('cart_latitude');
+  const elemLongitude = document.getElementById('cart_longitude');
+
+  // init map and send function
+  const replaceCoords = (coords) => {
+    const { lat, lng } = coords;
+    elemLatitude.value = lat;
+    elemLongitude.value = lng;
+  }
+  var lat = elemLatitude.value;
+  var lng = elemLongitude.value;
+
+  // assign default coords
+  lat = lat == '' ? -33.437709585031634 : lat;
+  lng = lng == '' ? -70.65045814429156 : lng;
+
+  const aHereMap = HereMap({
+    apikey: '<%= here_api_key%>',
+    useDraggable: true,
+    callbackOnDrag: replaceCoords,
+    lat,
+    lng
+  })
+</script>

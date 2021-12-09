@@ -7,14 +7,17 @@ class CartsController < ApplicationController
   end
   
   def new_cart_user
-    @cart = Cart.new(cart_user_params)
-    @articles = Article.all
-    
     respond_to do |format|
-      unless @cart.validate_user
+      if request.get? 
         format.html { redirect_to carts_url }
       else
-        format.html { render :new_cart_user }
+        @cart = Cart.new(cart_user_params)
+        @articles = Article.all    
+        unless @cart.validate_user
+          format.html { redirect_to carts_url }
+        else
+          format.html { render :new_cart_user }
+        end
       end
     end
   end
@@ -25,7 +28,7 @@ class CartsController < ApplicationController
     
     respond_to do |format|
       if @cart.save
-        format.html { redirect_to @cart, notice: "Su carro fue enviado a crearse" }
+        format.html { redirect_to @cart, notice: t(:notice_cart_created) }
         format.json { render :show, status: :created, location: @cart }
       else
         @articles = Article.all
@@ -43,7 +46,13 @@ class CartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def cart_params
-      params.require(:cart).permit(:name_user, :product, :quantity_product)
+      params.require(:cart).permit(
+        :name_user,
+        :product,
+        :quantity_product,
+        :latitude,
+        :longitude
+      )
     end
     def cart_user_params
       params.require(:cart).permit(:name_user)
