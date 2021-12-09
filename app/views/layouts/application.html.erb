@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>EcommerceRouting</title>
+    <title>E-commerce - Routing</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'https://js.api.here.com/v3/3.1/mapsjs-core.js' %>
+    <%= javascript_include_tag 'https://js.api.here.com/v3/3.1/mapsjs-service.js' %>
+    <%= javascript_include_tag 'https://js.api.here.com/v3/3.1/mapsjs-ui.js' %>
+    <%= javascript_include_tag 'https://js.api.here.com/v3/3.1/mapsjs-mapevents.js' %>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"/>
   </head>
 
   <body>

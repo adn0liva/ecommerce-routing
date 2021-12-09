@@ -1,0 +1,25 @@
+es:
+  hello: "Hello world"
+  solicite: Solicitar
+  back: Volver
+  add_products: Agregar productos
+  notice_cart_created: Su carro fue enviado a crearse
+  activemodel:
+    models:
+      cart: Carro
+    attributes:
+      cart:
+        quantity_product: Cantidad
+        product: Producto
+        coords: Coordenadas
+        latitude: Latitud
+        longitude: Longitud
+  carts:
+    index:
+      title: Ingrese su nombre
+    new_cart_user:
+      title: Nuevo carro para %{name_user}
+  errors:
+    send_cart: evitó que se enviara el carro
+    send_name: Ingrese el nombre
+    send_field: complete el campo
