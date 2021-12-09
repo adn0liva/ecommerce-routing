@@ -8,3 +8,13 @@
 .mt-15{
   margin-top: 1.5rem;
 }
+.map-container{
+  border: solid 1px;
+  width: 400px;
+  height: 400px
+}
+.latitude,
+.longitude{
+  display: table-cell;
+  padding-right: 1rem;
+}
