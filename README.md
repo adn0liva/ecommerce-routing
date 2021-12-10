@@ -14,13 +14,14 @@ The setups steps expect following tools installed on the system.
 git clone git@github.com:adn0liva/ecommerce-routing.git
 ```
 
-##### 2. Install gems
+##### 2. Install gems and webpacker
 
 Execute bundler to install gems from Gemfile
 
 ```bash
 gem install bundler
 bundle
+rails webpacker:install
 ```
 
 ##### 3. Start the Rails server
