@@ -38,15 +38,14 @@ class Cart
 
     loads = []
     product[:loads].each do |l|
-      loads.push({ "load" => (l[:load].to_i * self.quantity_product.to_i) })
-      loads
+      loads.push({ :load => (l[:load].to_i * self.quantity_product.to_i) })
     end
 
     {
       origin: "-34.601621,-70.978777",
       destination: self.latitude + "," + self.longitude,
       user: self.name_user,
-      document: self.product,
+      document: product[:name],
       quantity: self.quantity_product,
       loads: loads,
       source: "e-commerce"

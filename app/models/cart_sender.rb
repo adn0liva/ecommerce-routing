@@ -6,10 +6,15 @@ class CartSender
   def self.send_data_to_backend(data)
     core_demands_url = Rails.application.credentials.core_demands_url 
     uri = URI(core_demands_url)
-    p "Enviamos los datos al super backend de CS"
-    res = Net::HTTP.post_form(uri, data)
-    p res.body
-    res.is_a?(Net::HTTPSuccess)
+    p "Enviamos los datos al super backend de CS #{data}"
+    begin
+      res = Net::HTTP.post_form(uri, data)
+      p res.body
+      res.is_a?(Net::HTTPSuccess)
+    rescue => exception
+      p exception
+      false
+    end
   end
   
   def self.get_demands
