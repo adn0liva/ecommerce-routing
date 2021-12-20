@@ -23,3 +23,4 @@ es:
     send_cart: evitó que se enviara el carro
     send_name: Ingrese el nombre
     send_field: complete el campo
+    connection_response: El servicio remoto no pudo procesar su solicitud
