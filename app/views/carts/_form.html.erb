@@ -19,7 +19,7 @@
   </div>
   <div class="quantity_product mt-1">
     <%= f.label :quantity_product %>
-    <%= f.number_field :quantity_product, mix: 1, max: 10 %>
+    <%= f.number_field :quantity_product, min: 1, max: 10 %>
   </div>
   <div class="coords mt-1">
     <%= f.label :coords %>
