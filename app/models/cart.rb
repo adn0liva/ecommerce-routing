@@ -34,13 +34,19 @@ class Cart
   end
 
   def get_data_as_json
-    product_json = Article.get_product(self.product)
-    loads = product_json[:loads]
+    product = Article.get_product(self.product)
+
+    loads = []
+    product[:loads].each do |l|
+      loads.push({ "load" => (l[:load].to_i * self.quantity_product.to_i) })
+      loads
+    end
+
     {
       origin: "-34.601621,-70.978777",
       destination: self.latitude + "," + self.longitude,
       user: self.name_user,
-      product: self.product,
+      document: self.product,
       quantity: self.quantity_product,
       loads: loads,
       source: "e-commerce"
