@@ -48,7 +48,7 @@ class Cart
       document: product[:name],
       quantity: self.quantity_product,
       loads: loads,
-      source: "e-commerce"
+      source: "e-commerce #{self.name_user}"
     }
   end
 end
